@@ -4,7 +4,6 @@ using UnityEngine;
 using Mirror;
 using UnityEngine.AI;
 using Cinemachine;
-using static Cinemachine.CinemachineOrbitalTransposer;
 
 public class NetSpawnedObject : NetworkBehaviour
 {
@@ -34,18 +33,19 @@ public class NetSpawnedObject : NetworkBehaviour
 
     public CinemachineVirtualCamera Camera_Mine;
 
-
-    private void Awake()
+    private void Start()
     {
-        
-        VirtualCamera_Player = GetComponent<CinemachineVirtualCamera>();
-        //FreeLook_Player = FindAnyObjectByType<CinemachineFreeLook>();
-        //SetPlayerCinemachine();
+        VirtualCamera_Player = FindObjectOfType<CinemachineVirtualCamera>();
+        if (isLocalPlayer)
+        {
+            if (VirtualCamera_Player != null)
+                VirtualCamera_Player.Follow = transform;
+        }
     }
     private void Update()
     {
+        //Camera_Mine.gameObject.SetActive(true);
         //SetHealthBarOnUpdate(_health);
-        SetPlayerCinemachine();
 
         if (CheckIsFocusedOnUpdate() == false)
         {
@@ -66,11 +66,10 @@ public class NetSpawnedObject : NetworkBehaviour
 
     private void CheckIsLocalPlayerOnUpdate()
     {
-        Camera_Mine.gameObject.SetActive(isLocalPlayer == true);
-
         if (isLocalPlayer == false)
             return;
 
+        //SetPlayerCinemachine();
 
         //PlayerMove();
 
@@ -155,10 +154,11 @@ public class NetSpawnedObject : NetworkBehaviour
         }
     }*/
 
-    [Client]
+    /*[Client]
     void SetPlayerCinemachine()
     {
         CB = FindAnyObjectByType<CinemachineBrain>();
-        CB.IsLive(VirtualCamera_Player);
-    }
+        CB.IsLiveInBlend(VirtualCamera_Player);
+        //CB. = VirtualCamera_Player;
+    }*/
 }
