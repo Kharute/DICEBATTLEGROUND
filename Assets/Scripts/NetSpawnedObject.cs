@@ -44,8 +44,6 @@ public class NetSpawnedObject : NetworkBehaviour
     }
     private void Update()
     {
-        //Camera_Mine.gameObject.SetActive(true);
-        //SetHealthBarOnUpdate(_health);
 
         if (CheckIsFocusedOnUpdate() == false)
         {
@@ -55,10 +53,6 @@ public class NetSpawnedObject : NetworkBehaviour
         CheckIsLocalPlayerOnUpdate();
     }
 
-    /*private void SetHealthBarOnUpdate(int health)
-    {
-        TextMesh_HealthBar.text = new string('-', health);
-    }*/
     private bool CheckIsFocusedOnUpdate()
     {
         return Application.isFocused;
@@ -69,9 +63,6 @@ public class NetSpawnedObject : NetworkBehaviour
         if (isLocalPlayer == false)
             return;
 
-        //SetPlayerCinemachine();
-
-        //PlayerMove();
 
         // 회전
         float horizontal = Input.GetAxis("Horizontal");
@@ -154,11 +145,4 @@ public class NetSpawnedObject : NetworkBehaviour
         }
     }*/
 
-    /*[Client]
-    void SetPlayerCinemachine()
-    {
-        CB = FindAnyObjectByType<CinemachineBrain>();
-        CB.IsLiveInBlend(VirtualCamera_Player);
-        //CB. = VirtualCamera_Player;
-    }*/
 }
