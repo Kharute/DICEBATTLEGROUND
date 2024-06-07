@@ -15,8 +15,6 @@ public class NetSpawnedObject : NetworkBehaviour
     public TextMesh TextMesh_HealthBar;
     public Transform Transform_Player;
     CinemachineVirtualCamera VirtualCamera_Player;
-    //CinemachineFreeLook FreeLook_Player;
-
 
     [Header("Movement")]
     public float _rotationSpeed = 100.0f;
@@ -43,7 +41,6 @@ public class NetSpawnedObject : NetworkBehaviour
     }
     private void Update()
     {
-
         if (CheckIsFocusedOnUpdate() == false)
         {
             return;
@@ -96,28 +93,8 @@ public class NetSpawnedObject : NetworkBehaviour
                 _chattingUI.transform.localScale = (_chattingUI.transform.localScale == Vector3.one ? Vector3.zero : Vector3.one);
             }
         }
-
-
-        //RotateLocalPlayer();
     }
 
-    /*void PlayerMove()
-    {
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
-
-        MoveDir = dir.y * (Camera.main.transform.forward * horizontal) + dir.x * (Camera.main.transform.right * vertical);
-
-        //MoveDir = dir.y * Camera.main.transform.forward + dir.x * Camera.main.transform.right;
-        MoveDir = new Vector3(MoveDir.x, 0, MoveDir.z);
-        MoveDir.Normalize();
-        MoveDir *= NavAgent_Player.speed * Time.deltaTime;
-
-        if (MoveDir != Vector3.zero)
-        {
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(MoveDir), _rotationSpeed * Time.deltaTime);
-        }
-    }*/
 
     // 서버 사이드
     [Command]

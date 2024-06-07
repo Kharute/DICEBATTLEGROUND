@@ -8,7 +8,7 @@ public class ChatUser : NetworkBehaviour
     [SyncVar]
     public string PlayerName;
 
-    public List<Dice> Dices;
+    public int Dices = 1;
 
     public override void OnStartServer()
     {
@@ -23,5 +23,9 @@ public class ChatUser : NetworkBehaviour
         {
             chattingUI.SetLocalPlayerName(PlayerName);
         }
+    }
+    public void AddDice()
+    {
+        Dices++;
     }
 }
