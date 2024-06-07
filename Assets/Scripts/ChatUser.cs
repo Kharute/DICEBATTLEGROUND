@@ -8,6 +8,8 @@ public class ChatUser : NetworkBehaviour
     [SyncVar]
     public string PlayerName;
 
+    public List<Dice> Dices;
+
     public override void OnStartServer()
     {
         PlayerName = (string)connectionToClient.authenticationData;

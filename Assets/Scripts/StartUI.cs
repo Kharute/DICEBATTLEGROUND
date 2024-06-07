@@ -1,21 +1,23 @@
 using Mirror;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+
 
 public class StartUI : MonoBehaviour
 {
     [Header("UI")]
-    [SerializeField] internal InputField Input_NetworkAdress;
-    [SerializeField] internal InputField Input_UserName;
+    [SerializeField] internal TMP_InputField Input_NetworkAdress;
+    [SerializeField] internal TMP_InputField Input_UserName;
 
-    [SerializeField] internal Button Btn_StartAsHostServer;
-    [SerializeField] internal Button Btn_StartAsClient;
+    [SerializeField] internal Button[] Btn_ServerOrClient;
+    [SerializeField] internal Button Btn_Start;
 
-    [SerializeField] internal Text Text_Error;
+    [SerializeField] internal TextMeshProUGUI Text_Error;
 
-    [SerializeField] NetworkingManager _netManager;
+    [SerializeField] NetworkManager _netManager;
 
     [SerializeField] GameObject _StartPanel;
     [SerializeField] GameObject _NamePanel;
@@ -48,7 +50,8 @@ public class StartUI : MonoBehaviour
 
     private void Update()
     {
-        CheckNetworkAddressValidOnUpdate();
+        if(_NamePanel.activeSelf)
+            CheckNetworkAddressValidOnUpdate();
     }
 
     private void SetDefaultNetworkAddress()
@@ -98,8 +101,7 @@ public class StartUI : MonoBehaviour
     public void OnValueChanged_ToggleButton(string userName)
     {
         bool isUserNameValid = !string.IsNullOrWhiteSpace(userName);
-        Btn_StartAsHostServer.interactable = isUserNameValid;
-        Btn_StartAsClient.interactable = isUserNameValid;
+        Btn_Start.interactable = isUserNameValid;
     }
 
     public void OnClick_ServerOrClient(bool _isServer)

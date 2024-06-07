@@ -4,6 +4,7 @@ using UnityEngine;
 using Mirror;
 using UnityEngine.AI;
 using Cinemachine;
+using TMPro;
 
 public class NetSpawnedObject : NetworkBehaviour
 {
@@ -13,7 +14,6 @@ public class NetSpawnedObject : NetworkBehaviour
     public Animator Animator_Player;
     public TextMesh TextMesh_HealthBar;
     public Transform Transform_Player;
-    CinemachineBrain CB;
     CinemachineVirtualCamera VirtualCamera_Player;
     //CinemachineFreeLook FreeLook_Player;
 
@@ -25,22 +25,21 @@ public class NetSpawnedObject : NetworkBehaviour
 
     [Header("Attack")]
     public KeyCode _atkKey = KeyCode.Space;
+    
+
     public GameObject Prefab_AtkObject;
     public Transform Tranfrom_AtkSpawnPos;
 
     [Header("Stats Server")]
     [SyncVar] public int _health = 4;
 
-    public CinemachineVirtualCamera Camera_Mine;
+    [Header("Chat")]
+    public KeyCode _chatKey = KeyCode.Tab;
 
     private void Start()
     {
-        VirtualCamera_Player = FindObjectOfType<CinemachineVirtualCamera>();
-        if (isLocalPlayer)
-        {
-            if (VirtualCamera_Player != null)
-                VirtualCamera_Player.Follow = transform;
-        }
+        FollowTheCameraToPlayer();
+        
     }
     private void Update()
     {
@@ -53,6 +52,15 @@ public class NetSpawnedObject : NetworkBehaviour
         CheckIsLocalPlayerOnUpdate();
     }
 
+    void FollowTheCameraToPlayer()
+    {
+        VirtualCamera_Player = FindObjectOfType<CinemachineVirtualCamera>();
+        if (isLocalPlayer)
+        {
+            if (VirtualCamera_Player != null)
+                VirtualCamera_Player.Follow = transform;
+        }
+    }
     private bool CheckIsFocusedOnUpdate()
     {
         return Application.isFocused;
@@ -80,11 +88,20 @@ public class NetSpawnedObject : NetworkBehaviour
         {
             CommandAtk();
         }
+        if (Input.GetKeyDown(_chatKey))
+        {
+            var _chattingUI = FindAnyObjectByType<ChattingUI>();
+            if (_chattingUI != null)
+            {
+                _chattingUI.transform.localScale = (_chattingUI.transform.localScale == Vector3.one ? Vector3.zero : Vector3.one);
+            }
+        }
+
 
         //RotateLocalPlayer();
     }
 
-    void PlayerMove()
+    /*void PlayerMove()
     {
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
@@ -100,7 +117,7 @@ public class NetSpawnedObject : NetworkBehaviour
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(MoveDir), _rotationSpeed * Time.deltaTime);
         }
-    }
+    }*/
 
     // 서버 사이드
     [Command]
