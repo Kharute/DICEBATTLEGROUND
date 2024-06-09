@@ -45,9 +45,18 @@ public class DiceSpawnManager : NetworkBehaviour
     }
 
     // Update is called once per frame
-    [Server]
+    
     void Update()
     {
+        OnUpdateInServer();
+    }
+
+    [Server]
+    void OnUpdateInServer()
+    {
+        if (isLocalPlayer == true)
+            return;
+
         if (time > 0)
             time -= Time.deltaTime;
         else
@@ -55,13 +64,13 @@ public class DiceSpawnManager : NetworkBehaviour
             if (DiceList.Count > 0)
             {
                 Dequeues();
-                
+
                 time = timeCooltimes;
             }
         }
     }
 
-    [ClientRpc]
+    [Client]
     private void Dequeues()
     {
         GameObject gameObject = DiceList.Dequeue();
