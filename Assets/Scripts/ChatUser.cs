@@ -8,6 +8,7 @@ public class ChatUser : NetworkBehaviour
     [SyncVar]
     public string PlayerName;
 
+    [SyncVar]
     public int Dices = 1;
 
     public override void OnStartServer()

@@ -18,18 +18,12 @@ public class NetSpawnedObject : NetworkBehaviour
 
     [Header("Movement")]
     public float _rotationSpeed = 100.0f;
-    public Vector3 MoveDir { get; private set; }
-    Vector2 dir;
 
     [Header("Attack")]
     public KeyCode _atkKey = KeyCode.Space;
-    
 
     public GameObject Prefab_AtkObject;
     public Transform Tranfrom_AtkSpawnPos;
-
-    [Header("Stats Server")]
-    [SyncVar] public int _health = 4;
 
     [Header("Chat")]
     public KeyCode _chatKey = KeyCode.Tab;
@@ -95,7 +89,6 @@ public class NetSpawnedObject : NetworkBehaviour
         }
     }
 
-
     // 서버 사이드
     [Command]
     void CommandAtk()
@@ -111,32 +104,4 @@ public class NetSpawnedObject : NetworkBehaviour
     {
         Animator_Player.SetTrigger("Atk");
     }
-
-    // 클라에서 다음 함수가 실행되지 않도록 ServerCallback을 달아줌
-    [ServerCallback]
-    private void OnTriggerEnter(Collider other)
-    {
-        var atkGenObject = other.GetComponent<NetSpawnedSubObject>();
-        if (atkGenObject != null)
-        {
-            _health--;
-
-            if (_health == 0)
-            {
-                NetworkServer.Destroy(this.gameObject);
-            }
-        }
-    }
-
-    /*void RotateLocalPlayer()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hit, 100))
-        {
-            Debug.DrawLine(ray.origin, hit.point);
-            Vector3 lookRotate = new Vector3(hit.point.x, Transform_Player.position.y, hit.point.z);
-            Transform_Player.LookAt(lookRotate);
-        }
-    }*/
-
 }

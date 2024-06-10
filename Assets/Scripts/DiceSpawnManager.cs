@@ -40,6 +40,7 @@ public class DiceSpawnManager : NetworkBehaviour
         {
             GameObject gameObject = Instantiate(Dice_prefab, this.gameObject.transform);
             gameObject.gameObject.SetActive(false);
+            NetworkServer.Spawn(gameObject);
             Enqueues(gameObject);
         }
     }
@@ -51,7 +52,7 @@ public class DiceSpawnManager : NetworkBehaviour
         OnUpdateInServer();
     }
 
-    [Server]
+    [Command]
     void OnUpdateInServer()
     {
         if (isLocalPlayer == true)
@@ -70,7 +71,7 @@ public class DiceSpawnManager : NetworkBehaviour
         }
     }
 
-    [Client]
+    [Command]
     private void Dequeues()
     {
         GameObject gameObject = DiceList.Dequeue();
