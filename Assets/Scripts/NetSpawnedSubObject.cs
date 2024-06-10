@@ -7,15 +7,16 @@ public class NetSpawnedSubObject : NetworkBehaviour
 {
     public float _destroyAfter = 1.0f;
 
-    ChatUser _user;
+    public ChatUser _user;
 
     [SerializeField]
     BattleDice _battleDice;
 
     private void Awake()
     {
-        _user = GetComponentInParent<GameObject>().GetComponent<ChatUser>();
+        _user = GetComponentInParent<ChatUser>();
     }
+
     public override void OnStartServer()
     {
         Invoke(nameof(DestroySelf), _destroyAfter);
@@ -36,7 +37,7 @@ public class NetSpawnedSubObject : NetworkBehaviour
 
             if(_cUser != _user && _cUser != null)
             {
-                _battleDice.chatUserA = _user;
+                _battleDice.chatUserA = _cUser;
                 _battleDice.chatUserB = _user;
 
                 _battleDice.OnStartDiceBattle();

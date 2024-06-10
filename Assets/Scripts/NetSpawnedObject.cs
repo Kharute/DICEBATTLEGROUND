@@ -93,7 +93,8 @@ public class NetSpawnedObject : NetworkBehaviour
     [Command]
     void CommandAtk()
     {
-        GameObject atkObjectForSpawn = Instantiate(Prefab_AtkObject, Tranfrom_AtkSpawnPos.transform.position, Tranfrom_AtkSpawnPos.transform.rotation);
+        GameObject atkObjectForSpawn = Instantiate(Prefab_AtkObject, Tranfrom_AtkSpawnPos.position, Tranfrom_AtkSpawnPos.transform.rotation);
+        atkObjectForSpawn.GetComponent<NetSpawnedSubObject>()._user = gameObject.GetComponent<ChatUser>();
         NetworkServer.Spawn(atkObjectForSpawn);
 
         RpcOnAtk();
