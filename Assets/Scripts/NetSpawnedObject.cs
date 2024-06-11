@@ -12,8 +12,8 @@ public class NetSpawnedObject : NetworkBehaviour
     
     public NavMeshAgent NavAgent_Player;
     public Animator Animator_Player;
-    public TextMesh TextMesh_HealthBar;
     public Transform Transform_Player;
+    public ChatUser Chat_Player;
     CinemachineVirtualCamera VirtualCamera_Player;
 
     [Header("Movement")]
@@ -28,6 +28,14 @@ public class NetSpawnedObject : NetworkBehaviour
     [Header("Chat")]
     public KeyCode _chatKey = KeyCode.Tab;
 
+    [Header("PlayerUI")]
+    [SerializeField] TextMeshProUGUI Dice_Count;
+
+    
+    private void Awake()
+    {
+        Chat_Player = GetComponent<ChatUser>();
+    }
     private void Start()
     {
         FollowTheCameraToPlayer();
@@ -41,6 +49,12 @@ public class NetSpawnedObject : NetworkBehaviour
         }
 
         CheckIsLocalPlayerOnUpdate();
+        UpdateToDice();
+    }
+
+    void UpdateToDice()
+    {
+        Dice_Count.text = Chat_Player.Dices.ToString();
     }
 
     void FollowTheCameraToPlayer()
@@ -94,7 +108,7 @@ public class NetSpawnedObject : NetworkBehaviour
     void CommandAtk()
     {
         GameObject atkObjectForSpawn = Instantiate(Prefab_AtkObject, Tranfrom_AtkSpawnPos.position, Tranfrom_AtkSpawnPos.transform.rotation);
-        atkObjectForSpawn.GetComponent<NetSpawnedSubObject>()._user = gameObject.GetComponent<ChatUser>();
+        atkObjectForSpawn.GetComponent<NetSpawnedSubObject>()._user = Chat_Player;
         NetworkServer.Spawn(atkObjectForSpawn);
 
         RpcOnAtk();

@@ -14,17 +14,13 @@ public class DiceSpawnManager : NetworkBehaviour
     Queue<GameObject> DiceList;
     int diceCount = 10;
 
-    public static DiceSpawnManager instance;
+    public static DiceSpawnManager instance = new();
 
     private DiceSpawnManager()
     {
         DiceList = new Queue<GameObject>();
     }
 
-    private void Awake()
-    {
-        instance = new DiceSpawnManager();
-    }
     float timeCooltimes = 5.0f;
     float time = 5.0f;
 

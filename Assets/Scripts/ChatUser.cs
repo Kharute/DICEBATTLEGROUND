@@ -9,7 +9,13 @@ public class ChatUser : NetworkBehaviour
     public string PlayerName;
 
     [SyncVar]
-    public int Dices = 1;
+    private int _dices = 1;
+
+    public int Dices
+    {
+        get { return _dices; }
+        set { _dices = value; }
+    }
 
     public override void OnStartServer()
     {
@@ -27,6 +33,6 @@ public class ChatUser : NetworkBehaviour
     }
     public void AddDice()
     {
-        Dices++;
+        _dices++;
     }
 }
